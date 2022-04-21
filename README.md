@@ -19,7 +19,7 @@
 
 * Project 2: Guess the Flag
 
-<video src="https://github.com/qingqingqingli/iOS_practices/blob/main/demo/project2.mp4" width=250>
+[![project_2](https://github.com/qingqingqingli/iOS_practices/blob/main/demo/project2.gif)](https://github.com/qingqingqingli/iOS_practices)
 
 * Project 3: Social Media (TBC)
 * Project 4: Easy Browser (TBC)
