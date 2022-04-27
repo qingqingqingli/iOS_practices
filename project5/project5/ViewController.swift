@@ -15,11 +15,13 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
+
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Word")
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(promptForAnswer))
         
-        view.backgroundColor = .white
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(restartGame))
         
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsURL) {
@@ -31,6 +33,10 @@ class ViewController: UITableViewController {
             allWords = ["silkworm"]
         }
         
+        startGame()
+    }
+    
+    @objc private func restartGame() {
         startGame()
     }
     
@@ -81,7 +87,7 @@ class ViewController: UITableViewController {
             showErrorAlert()
         }
         catch WordCheckError.isNotPossible{
-            errorTitle = "Word not recognised"
+            errorTitle = "Word not possible"
             errorMessage = "You can't just make them up, you know!"
             showErrorAlert()
         }
@@ -92,7 +98,7 @@ class ViewController: UITableViewController {
         }
         catch WordCheckError.isNotReal {
             guard let title = title?.lowercased() else { return }
-            errorTitle = "Word not possible"
+            errorTitle = "Word not not real"
             errorMessage = "You can't spell that word from \(title)"
             showErrorAlert()
         }
@@ -121,8 +127,10 @@ class ViewController: UITableViewController {
     }
     
     private func isOriginal(word: String) throws -> Bool {
-        guard usedWords.contains(word) == false else {
-            throw WordCheckError.isNotOriginal
+        for usedWord in usedWords {
+            if usedWord.lowercased().contains(word.lowercased()) {
+                throw WordCheckError.isNotOriginal
+            }
         }
         return true
     }
@@ -134,7 +142,7 @@ class ViewController: UITableViewController {
         let range = NSRange(location: 0, length: word.utf16.count)
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
         
-        if misspelledRange.location == NSNotFound {
+        if misspelledRange.location == NSNotFound, word.count >= 3 {
             return true
         } else {
             throw WordCheckError.isNotReal
