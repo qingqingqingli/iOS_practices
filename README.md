@@ -12,3 +12,4 @@
 | [Project 4: Easy Browser](https://www.hackingwithswift.com/read/4/overview) | loadView(), WKWebView, URLRequest, UIToolbar, UIProgressView, key-value observing | <img width=150 src="https://github.com/qingqingqingli/iOS_practices/blob/main/demo/project4.gif">
 | [Project 5: Word Scramble](https://www.hackingwithswift.com/read/5/overview) | Closures, method return values, booleans, NSRange | <img width=150 src="https://github.com/qingqingqingli/iOS_practices/blob/main/demo/project5.gif">
 | [Project 6: Auto Layout](https://www.hackingwithswift.com/read/6/overview) | NSLayoutConstraint, Visual Format Language, layout anchors | <img width=150 src="https://github.com/qingqingqingli/iOS_practices/blob/main/demo/project6.png">
+| [Project 7: Auto Layout](https://www.hackingwithswift.com/read/7/overview) | JSON, Data, UITabBarController | <img width=150 src="https://github.com/qingqingqingli/iOS_practices/blob/main/demo/project7.gif">
