@@ -17,18 +17,9 @@ class PetitionsViewController: UIViewController {
         return view
     }()
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        
-        setUpDataSource()
-        setUpViewLayout()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         if tabBarItem.tag == 0 {
             parent?.navigationItem.title = "Most recent"
         } else {
@@ -36,16 +27,39 @@ class PetitionsViewController: UIViewController {
         }
     }
     
-    private func setUpDataSource() {
-//        let petition1 = Petition(title: "petition 1", body: "test data for petition 1", signatureCount: 100)
-//        let petition2 = Petition(title: "petition 2", body: "test data for petition 2", signatureCount: 200)
-//        let petition3 = Petition(title: "petition 3", body: "test data for petition 3", signatureCount: 300)
-//        petitions.append(petition1)
-//        petitions.append(petition2)
-//        petitions.append(petition3)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
         
-        /// load json data -> Issue: our UI will lock up until all data has been downloaded and transformed
-        let urlString = "https://www.hackingwithswift.com/samples/petitions-1.json"
+        let urlString = determineUrlSource()
+        setUpDataSource(from: urlString)
+        setUpViewLayout()
+        
+        parent?.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .bookmarks,
+            target: self,
+            action: #selector(creditTapped)
+        )
+    }
+    
+    private func determineUrlSource() -> String {
+        if tabBarItem.tag == 0 {
+            // urlString = "https://api.whitehouse.gov/v1/petitions.json?limit=100"
+            return "https://www.hackingwithswift.com/samples/petitions-1.json"
+        } else {
+            // urlString = "https://api.whitehouse.gov/v1/petitions.json?signatureCountFloor=10000&limit=100"
+            return "https://www.hackingwithswift.com/samples/petitions-2.json"
+        }
+    }
+    
+    @objc private func creditTapped() {
+        let urlString = determineUrlSource()
+        let ac = UIAlertController(title: "Source", message: "This list of petition is from \(urlString)", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .cancel))
+        navigationController?.present(ac, animated: true)
+    }
+    
+    private func setUpDataSource(from urlString: String) {
         if let url = URL(string: urlString),
            let data = try? Data(contentsOf: url) {
             parse(json: data)
